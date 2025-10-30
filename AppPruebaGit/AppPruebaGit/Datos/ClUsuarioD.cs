@@ -64,6 +64,27 @@ namespace AppPruebaGit.Datos
             cmd.Parameters.AddWithValue("@Documento", documento);
             return cmd.ExecuteNonQuery() > 0;
         }
+        public Usuario Buscar(int documento)
+        {
+            Usuario usuario = null;
+            SqlConnection conexion = oConexion.MtAbrir();
+            string consulta = "SELECT * FROM Usuario WHERE Documento=@Documento";
+            SqlCommand cmd = new SqlCommand(consulta, conexion);
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+            {
+                usuario = new Usuario()
+                {
+                    documento = dr.GetString(0),
+                    nombre = dr.GetString(1),
+                    apellido = dr.GetString(2),
+                    email = dr.GetString(3)
+                };
+            }
+            return usuario;
+
+        }
+
 
     }
     
