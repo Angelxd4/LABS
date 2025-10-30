@@ -43,6 +43,19 @@ namespace AppPruebaGit.Datos
             return cmd.ExecuteNonQuery() > 0;
 
         }
+        public bool Editar(Usuario usuario)
+        {
+            SqlConnection conexion = oConexion.MtAbrir();
+            string consulta = "UPDATE Usuario SET Nombre=@Nombre, Apellido=@Apellido, Email=@Email WHERE Documento=@Documento";
+            SqlCommand cmd = new SqlCommand(consulta, conexion);
+            cmd.Parameters.AddWithValue("@Documento", usuario.documento);
+            cmd.Parameters.AddWithValue("@Nombre", usuario.nombre);
+            cmd.Parameters.AddWithValue("@Apellido", usuario.apellido);
+            cmd.Parameters.AddWithValue("@Email", usuario.email);
+            
+            return cmd.ExecuteNonQuery() > 0;
+
+        }
     }
     
 
