@@ -16,18 +16,21 @@ namespace AppPruebaGit.Datos
         {
             List<Usuario> lista = new List<Usuario>();
             SqlConnection conexion = oConexion.MtAbrir();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Usuario");
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Usuario", conexion);
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 lista.Add(new Usuario()
                 {
-                    documento = dr.GetString(0),
-                    nombre = dr.GetString(1),
-                    apellido = dr.GetString(2),
-                    email = dr.GetString(3)
+                    idUsuario = dr.GetInt32(0),
+                    documento = dr.GetString(1),
+                    nombre = dr.GetString(2),
+                    apellido = dr.GetString(3),
+                    email = dr.GetString(4)
                 });
             }
+            dr.Close();
+            conexion.Close();
             return lista;
 
         }
@@ -40,6 +43,7 @@ namespace AppPruebaGit.Datos
             cmd.Parameters.AddWithValue("@Nombre", usuario.nombre);
             cmd.Parameters.AddWithValue("@Apellido", usuario.apellido);
             cmd.Parameters.AddWithValue("@Email", usuario.email);
+            conexion.Close();
             return cmd.ExecuteNonQuery() > 0;
 
         }
@@ -52,7 +56,7 @@ namespace AppPruebaGit.Datos
             cmd.Parameters.AddWithValue("@Nombre", usuario.nombre);
             cmd.Parameters.AddWithValue("@Apellido", usuario.apellido);
             cmd.Parameters.AddWithValue("@Email", usuario.email);
-            
+            conexion.Close();
             return cmd.ExecuteNonQuery() > 0;
 
         }
@@ -62,6 +66,7 @@ namespace AppPruebaGit.Datos
             string consulta = "DELETE FROM Usuario WHERE Documento=@Documento";
             SqlCommand cmd = new SqlCommand(consulta, conexion);
             cmd.Parameters.AddWithValue("@Documento", documento);
+            conexion.Close();
             return cmd.ExecuteNonQuery() > 0;
         }
         public Usuario Buscar(int documento)
@@ -70,17 +75,21 @@ namespace AppPruebaGit.Datos
             SqlConnection conexion = oConexion.MtAbrir();
             string consulta = "SELECT * FROM Usuario WHERE Documento=@Documento";
             SqlCommand cmd = new SqlCommand(consulta, conexion);
+            cmd.Parameters.AddWithValue("@Documento", documento);
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
             {
                 usuario = new Usuario()
                 {
-                    documento = dr.GetString(0),
-                    nombre = dr.GetString(1),
-                    apellido = dr.GetString(2),
-                    email = dr.GetString(3)
+                    idUsuario = dr.GetInt32(0),
+                    documento = dr.GetString(1),
+                    nombre = dr.GetString(2),
+                    apellido = dr.GetString(3),
+                    email = dr.GetString(4)
                 };
             }
+            dr.Close();
+            conexion.Close();
             return usuario;
 
         }
