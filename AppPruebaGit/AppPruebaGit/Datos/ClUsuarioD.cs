@@ -30,7 +30,20 @@ namespace AppPruebaGit.Datos
             }
             return lista;
 
+        }
+        public bool Registrar(Usuario usuario)
+        {
+            SqlConnection conexion = oConexion.MtAbrir();
+            string consulta = "INSERT INTO Usuario VALUES (@Documento,@Nombre,@Apellido,@Email)";
+            SqlCommand cmd = new SqlCommand(consulta, conexion);
+            cmd.Parameters.AddWithValue("@Documento", usuario.documento);
+            cmd.Parameters.AddWithValue("@Nombre", usuario.nombre);
+            cmd.Parameters.AddWithValue("@Apellido", usuario.apellido);
+            cmd.Parameters.AddWithValue("@Email", usuario.email);
+            return cmd.ExecuteNonQuery() > 0;
 
         }
     }
+    
+
 }
