@@ -56,6 +56,15 @@ namespace AppPruebaGit.Datos
             return cmd.ExecuteNonQuery() > 0;
 
         }
+        public bool Eliminar(int documento)
+        {
+            SqlConnection conexion = oConexion.MtAbrir();
+            string consulta = "DELETE FROM Usuario WHERE Documento=@Documento";
+            SqlCommand cmd = new SqlCommand(consulta, conexion);
+            cmd.Parameters.AddWithValue("@Documento", documento);
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
     }
     
 
